@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NHATT TANN ENGINE PRIME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:#0a0a1a;display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;overflow:hidden;font-family:'Rajdhani',sans-serif}
+        .neon-bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden;background:radial-gradient(ellipse at center,#0a0a2a 0%,#1a0033 50%,#0a0a1a 100%)}
+        .neon-line{position:absolute;height:2px;background:linear-gradient(90deg,transparent,#ff44ff,#00d4ff,transparent);opacity:0.4;animation:lineMove 12s infinite linear;border-radius:50%;filter:blur(1px)}
+        .neon-line:nth-child(1){top:10%;left:-20%;width:60%;animation-duration:14s}
+        .neon-line:nth-child(2){top:30%;left:-40%;width:80%;animation-duration:18s;animation-delay:-3s}
+        .neon-line:nth-child(3){top:50%;left:-10%;width:50%;animation-duration:10s;animation-delay:-5s}
+        .neon-line:nth-child(4){top:70%;left:-30%;width:70%;animation-duration:16s;animation-delay:-7s}
+        .neon-line:nth-child(5){top:90%;left:-50%;width:90%;animation-duration:20s;animation-delay:-2s}
+        @keyframes lineMove{0%{transform:translateX(0) scaleX(1);opacity:0.2}50%{transform:translateX(60vw) scaleX(1.5);opacity:0.8}100%{transform:translateX(120vw) scaleX(0.8);opacity:0.2}}
+        .neon-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.3;animation:orbFloat 20s infinite ease-in-out alternate}
+        .neon-orb:nth-child(6){width:300px;height:300px;background:#ff44ff;top:10%;left:-5%;animation-duration:25s}
+        .neon-orb:nth-child(7){width:400px;height:400px;background:#00d4ff;bottom:10%;right:-10%;animation-duration:30s;animation-delay:-5s}
+        @keyframes orbFloat{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,-50px) scale(1.2)}}
+        #starCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+        .container{position:relative;z-index:1;background:rgba(17,17,40,0.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:40px;padding:30px 25px;max-width:480px;width:100%;border:1px solid rgba(0,212,255,0.25);box-shadow:0 0 80px rgba(0,212,255,0.08),inset 0 0 80px rgba(255,68,255,0.04);max-height:95vh;overflow-y:auto;animation:fadeIn 0.8s ease}
+        @keyframes fadeIn{0%{opacity:0;transform:translateY(30px) scale(0.95)}100%{opacity:1;transform:translateY(0) scale(1)}}
+        .neon-text{font-family:'Orbitron','Rajdhani',sans-serif;text-shadow:0 0 5px rgba(0,212,255,0.6),0 0 15px rgba(0,212,255,0.4),0 0 30px rgba(255,68,255,0.3),0 0 60px rgba(255,68,255,0.2);letter-spacing:1px}
+        h1{text-align:center;font-size:32px;font-family:'Orbitron',sans-serif;font-weight:900;background:linear-gradient(135deg,#00d4ff,#ff44ff,#00d4ff);background-size:300% 300%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:gradientMove 4s ease infinite,glowText 2s infinite alternate;text-shadow:none}
+        @keyframes gradientMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+        @keyframes glowText{0%{filter:drop-shadow(0 0 10px rgba(0,212,255,0.3))}100%{filter:drop-shadow(0 0 30px rgba(255,68,255,0.6))}}
+        .sub{text-align:center;color:#aaccff;font-size:14px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:4px;text-transform:uppercase;margin-bottom:15px;border-bottom:1px solid rgba(0,212,255,0.15);padding-bottom:12px;text-shadow:0 0 10px rgba(0,212,255,0.5)}
+        .auth-screen{display:flex;flex-direction:column;gap:12px;padding:10px 0}
+        .auth-screen input{width:100%;padding:14px;background:rgba(10,10,30,0.7);border:1px solid rgba(0,212,255,0.2);border-radius:12px;color:#fff;font-size:16px;font-family:'Rajdhani',sans-serif;text-align:center;outline:none;transition:0.3s;text-shadow:0 0 8px rgba(0,212,255,0.2)}
+        .auth-screen input:focus{border-color:#ff44ff;box-shadow:0 0 30px rgba(255,68,255,0.2)}
+        .auth-screen .btn{width:100%;padding:14px;background:linear-gradient(135deg,#ff44ff,#ff00aa);border:none;border-radius:12px;color:#fff;font-family:'Orbitron',sans-serif;font-weight:700;font-size:16px;cursor:pointer;transition:0.3s;text-transform:uppercase;letter-spacing:1px;text-shadow:0 0 20px rgba(255,255,255,0.3);box-shadow:0 0 30px rgba(255,68,255,0.3)}
+        .auth-screen .btn:active{transform:scale(0.96)}
+        .auth-screen .switch-link{color:#00d4ff;text-align:center;font-size:14px;cursor:pointer;margin-top:8px;font-weight:700;text-shadow:0 0 15px rgba(0,212,255,0.5)}
+        .auth-screen .status{color:#ff6666;text-align:center;font-size:14px;min-height:24px;text-shadow:0 0 10px rgba(255,68,68,0.3)}
+        .main-app{display:none}.main-app.show{display:block}
+        .user-info{color:#aaccff;font-size:13px;text-align:right;padding:4px 0;border-bottom:1px solid rgba(0,212,255,0.1);margin-bottom:12px;font-weight:600;text-shadow:0 0 10px rgba(0,212,255,0.3)}
+        .user-info .role-tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700;font-family:'Rajdhani',sans-serif}
+        .role-admin{background:#ff44ff;color:#000}
+        .role-pho{background:#00d4ff;color:#000}
+        .role-seller{background:#ffaa00;color:#000}
+        .role-user{background:#666688;color:#fff}
+        .settings-icon{text-align:right;font-size:22px;cursor:pointer;color:#8888cc;transition:0.3s;margin-bottom:10px;user-select:none;text-shadow:0 0 10px rgba(0,212,255,0.2)}
+        .settings-icon:hover{color:#00d4ff;transform:rotate(30deg)}
+        .settings-icon .hint{font-size:9px;color:#444466;display:block}
+        .tabs{display:flex;gap:5px;margin-bottom:15px;flex-wrap:wrap}
+        .tabs button{flex:1;padding:8px 4px;background:rgba(10,10,30,0.5);border:1px solid rgba(0,212,255,0.15);border-radius:8px;color:#8888cc;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:0.3s;min-width:40px;text-transform:uppercase;letter-spacing:0.5px;text-shadow:0 0 8px rgba(0,212,255,0.1)}
+        .tabs button.active{background:#ff44ff;color:#000;border-color:#ff44ff;box-shadow:0 0 40px rgba(255,68,255,0.3);text-shadow:0 0 20px rgba(255,255,255,0.3)}
+        .tabs button:hover:not(.active){border-color:#ff44ff;color:#fff}
+        .tab-content{display:none}.tab-content.show{display:block;animation:fadeIn 0.4s ease}
+        .admin-panel{background:rgba(10,10,30,0.6);border-radius:12px;padding:16px;margin-top:12px;border:1px solid #00d4ff;transition:0.3s}
+        .admin-panel:hover{border-color:#ff44ff}
+        .admin-panel input,.admin-panel select,.admin-panel textarea{width:100%;padding:10px;background:rgba(17,17,40,0.8);border:1px solid #333355;border-radius:8px;color:#fff;margin-bottom:8px;font-family:'Rajdhani',sans-serif;outline:none;transition:0.3s;text-shadow:0 0 8px rgba(0,212,255,0.1)}
+        .admin-panel input:focus,.admin-panel select:focus,.admin-panel textarea:focus{border-color:#ff44ff}
+        .admin-panel textarea{min-height:80px;resize:vertical}
+        .admin-panel .btn-admin{background:#00d4ff;border:none;border-radius:8px;padding:8px 16px;color:#000;font-weight:700;cursor:pointer;margin:4px;transition:0.3s;font-family:'Rajdhani',sans-serif;font-size:13px;text-shadow:0 0 10px rgba(0,0,0,0.2)}
+        .admin-panel .btn-admin:hover{transform:scale(1.05)}
+        .admin-panel .btn-admin.del{background:#ff4444;color:#fff}
+        .admin-panel .btn-admin.seller{background:#ffaa00;color:#000}
+        .admin-panel .btn-admin.pass{background:#ff44ff;color:#000}
+        .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:10px 0}
+        .stats-item{background:rgba(10,10,30,0.6);border-radius:8px;padding:10px;text-align:center;border:1px solid #333355;transition:0.3s}
+        .stats-item:hover{border-color:#00d4ff}
+        .stats-item .num{font-size:22px;font-weight:700;color:#00d4ff;font-family:'Orbitron',sans-serif;text-shadow:0 0 20px rgba(0,212,255,0.5)}
+        .stats-item .label{font-size:10px;color:#666688;font-weight:600;text-transform:uppercase;letter-spacing:1px;text-shadow:0 0 8px rgba(0,212,255,0.1)}
+        .notice-box{background:rgba(26,26,58,0.6);border-radius:8px;padding:10px;margin:6px 0;border-left:3px solid #ff44ff}
+        .notice-box .time{color:#666688;font-size:10px}
+        .blink-text{animation:blinkText 1s infinite;text-shadow:0 0 20px rgba(255,68,68,0.5)}
+        @keyframes blinkText{0%{opacity:1}50%{opacity:0.2}100%{opacity:1}}
+        .vip-tag{background:linear-gradient(135deg,#ff44ff,#ff00aa);color:#fff;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700;margin-left:6px;text-shadow:0 0 10px rgba(255,68,255,0.5)}
+        .free-tag{background:#00d4ff;color:#000;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700;margin-left:6px}
+        .file-item{background:rgba(10,10,30,0.6);border-radius:10px;padding:12px;margin-bottom:8px;border:1px solid #333355;transition:0.3s}
+        .file-item:hover{border-color:#00d4ff}
+        .file-item .name{color:#ccddff;font-weight:600;font-size:14px;text-shadow:0 0 8px rgba(0,212,255,0.2)}
+        .file-item .desc{color:#8888cc;font-size:12px;margin-top:2px}
+        .file-item .btn-download{background:#00d4ff;border:none;border-radius:6px;padding:4px 16px;color:#000;font-weight:700;cursor:pointer;margin-top:6px;transition:0.3s;font-size:13px;text-shadow:0 0 10px rgba(0,0,0,0.2)}
+        .file-item .btn-download:hover{transform:scale(1.05)}
+        .file-item .btn-download.vip{background:linear-gradient(135deg,#ff44ff,#ff00aa);color:#fff}
+        .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);color:#fff;padding:12px 24px;border-radius:12px;border:1px solid #ff44ff;font-family:'Rajdhani',sans-serif;font-weight:600;font-size:14px;z-index:9999;display:none;text-align:center;max-width:90%;backdrop-filter:blur(10px);animation:fadeIn 0.3s ease;text-shadow:0 0 15px rgba(255,255,255,0.2)}
+        .toast.show{display:block}
+        .toast.success{border-color:#88ff88;color:#88ff88}
+        .toast.error{border-color:#ff4444;color:#ff4444}
+        .toast.warning{border-color:#ffaa00;color:#ffaa00}
+        #musicToggle{position:fixed;top:15px;right:15px;z-index:999;background:rgba(255,68,255,0.3);border:2px solid #ff44ff;border-radius:50%;width:48px;height:48px;color:#fff;font-size:22px;cursor:pointer;backdrop-filter:blur(10px);transition:0.3s;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(255,68,255,0.3)}
+        #musicToggle:hover{transform:scale(1.1);background:rgba(255,68,255,0.6)}
+        #musicToggle.muted{opacity:0.5;border-color:#666}
+        ::-webkit-scrollbar{width:4px}
+        ::-webkit-scrollbar-track{background:#0a0a1e}
+        ::-webkit-scrollbar-thumb{background:#ff44ff;border-radius:4px}
+        .manage-row{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+        .manage-row input,.manage-row select{flex:1;min-width:60px}
+        .follow-section{background:rgba(26,26,58,0.6);border-radius:12px;padding:14px;margin:12px 0;border:2px solid #ff44ff;text-align:center;box-shadow:0 0 40px rgba(255,68,255,0.15)}
+        .follow-section .btn-follow{background:#ff44ff;border:none;border-radius:8px;padding:10px 20px;color:#000;font-weight:700;cursor:pointer;margin:6px;transition:0.3s;font-family:'Rajdhani',sans-serif;font-size:14px;text-shadow:0 0 10px rgba(255,255,255,0.2)}
+        .follow-section .btn-check{background:#00d4ff;border:none;border-radius:8px;padding:10px 20px;color:#000;font-weight:700;cursor:pointer;margin:6px;transition:0.3s;font-family:'Rajdhani',sans-serif;font-size:14px;text-shadow:0 0 10px rgba(0,0,0,0.2)}
+        .platform-select{display:flex;gap:10px;margin:10px 0}
+        .platform-select button{flex:1;padding:10px;border-radius:10px;border:2px solid #333355;background:rgba(10,10,30,0.6);color:#8888cc;font-weight:700;cursor:pointer;transition:0.3s;font-family:'Rajdhani',sans-serif;font-size:14px;text-shadow:0 0 8px rgba(0,212,255,0.1)}
+        .platform-select button.active{border-color:#ff44ff;color:#fff;background:rgba(255,68,255,0.15);box-shadow:0 0 30px rgba(255,68,255,0.15)}
+        .platform-select button:hover{border-color:#00d4ff}
+        .backup-section{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+        .backup-section button{flex:1}
+        .sens-preview{background:rgba(10,10,30,0.4);border-radius:8px;padding:10px;margin-top:6px;border:1px solid #333355;max-height:150px;overflow-y:auto;font-size:12px;color:#8888cc}
+        .sens-preview .label{color:#00d4ff;font-weight:700}
+    </style>
+</head>
+<body>
+    <div class="neon-bg">
+        <div class="neon-line"></div><div class="neon-line"></div><div class="neon-line"></div>
+        <div class="neon-line"></div><div class="neon-line"></div>
+        <div class="neon-orb"></div><div class="neon-orb"></div>
+    </div>
+    <canvas id="starCanvas"></canvas>
+    <button id="musicToggle" onclick="toggleMusic()">🔊</button>
+    <div id="toast" class="toast"></div>
+    <iframe id="youtubePlayer" src="https://www.youtube.com/embed/F6HkqZgXoX4?autoplay=1&loop=1&playlist=F6HkqZgXoX4&controls=0&showinfo=0&autohide=1&iv_load_policy=3&disablekb=1&mute=0" style="width:1px;height:1px;border:none;position:fixed;bottom:0;right:0;z-index:-1;" allow="autoplay; encrypted-media"></iframe>
+
+    <div class="container">
+        <h1>❄️ NHATT TANN</h1>
+        <div class="sub neon-text">PRIME • NEON</div>
+
+        <div id="authScreen" class="auth-screen">
+            <input type="text" id="authUsername" placeholder="👤 Tên đăng nhập">
+            <input type="password" id="authPassword" placeholder="🔑 Mật khẩu">
+            <button class="btn" id="authBtn" onclick="handleAuth()">ĐĂNG NHẬP</button>
+            <div class="switch-link" id="authSwitch" onclick="toggleAuthMode()">Chưa có tài khoản? Đăng ký</div>
+            <div class="status" id="authStatus"></div>
+        </div>
+
+        <div id="mainApp" class="main-app">
+            <div class="user-info" id="userInfo">
+                👤 <span id="displayUsername"></span> <span id="displayRole"></span>
+                <span onclick="logout()" style="color:#ff4444;cursor:pointer;margin-left:12px;">🚪 Thoát</span>
+            </div>
+            <div class="settings-icon" onclick="clickSettings()">⚙️<span class="hint">(nhấn 5 lần mở admin)</span></div>
+
+            <div class="tabs" id="tabContainer">
+                <button class="active" data-tab="tabSens">🎮 ĐỘ NHẠY</button>
+                <button data-tab="tabFiles">📦 KHO FILE</button>
+                <button data-tab="tabAccount">🔑 TK</button>
+                <button data-tab="tabAdmin" id="adminTab" style="display:none;">👑 ADMIN</button>
+                <button data-tab="tabSeller" id="sellerTab" style="display:none;">🛒 SELLER</button>
+            </div>
+
+            <!-- TAB 1: ĐỘ NHẠY -->
+            <div id="tabSens" class="tab-content show">
+                <div class="follow-section" id="followSectionSens">
+                    <div style="color:#ccddff;font-weight:700;font-size:15px;text-shadow:0 0 15px rgba(0,212,255,0.4);">📱 YÊU CẦU FOLLOW TIKTOK</div>
+                    <div style="color:#8888cc;font-size:13px;margin:4px 0;">Follow @goianklatan để tải file độ nhạy</div>
+                    <a href="https://www.tiktok.com/@goianklatan" target="_blank" style="color:#00d4ff;font-size:14px;font-weight:600;text-shadow:0 0 15px rgba(0,212,255,0.3);">👉 https://www.tiktok.com/@goianklatan</a>
+                    <div style="margin:8px 0;">
+                        <button class="btn-follow" onclick="window.open('https://www.tiktok.com/@goianklatan','_blank')">📲 Mở TikTok</button>
+                        <button class="btn-check" onclick="checkFollowSens()">✅ Đã follow, kiểm tra</button>
+                    </div>
+                    <div id="followStatusSens" style="color:#ff6666;font-size:14px;font-weight:600;" class="blink-text">⚠️ Chưa xác nhận follow</div>
+                </div>
+
+                <div class="platform-select" id="platformSelectSens">
+                    <button data-platform="android" class="active" onclick="selectPlatformSens('android')">📱 Android</button>
+                    <button data-platform="ios" onclick="selectPlatformSens('ios')">🍏 iOS</button>
+                </div>
+
+                <div id="sensFileList" style="margin-top:12px;">
+                    <div style="color:#8888cc;font-size:14px;text-align:center;padding:12px;font-weight:500;text-shadow:0 0 10px rgba(0,212,255,0.2);">📭 Chưa có file độ nhạy nào</div>
+                </div>
+                <div class="status" id="sensStatus"></div>
+                <div class="copy-guide" style="background:rgba(10,10,30,0.6);border-radius:12px;padding:12px;margin-top:12px;border:1px solid #00d4ff;display:none;" id="sensGuide">
+                    <div style="color:#00d4ff;font-weight:700;margin-bottom:8px;font-size:15px;text-shadow:0 0 15px rgba(0,212,255,0.4);">📋 HƯỚNG DẪN CÀI ĐẶT ĐỘ NHẠY</div>
+                    <div class="step" style="color:#ccddff;font-size:13px;margin:6px 0;font-weight:500;text-shadow:0 0 8px rgba(0,212,255,0.2);">1️⃣ Tải file cấu hình độ nhạy về máy</div>
+                    <div class="step" style="color:#ccddff;font-size:13px;margin:6px 0;font-weight:500;text-shadow:0 0 8px rgba(0,212,255,0.2);">2️⃣ Mở Free Fire → Cài đặt → Độ nhạy</div>
+                    <div class="step" style="color:#ccddff;font-size:13px;margin:6px 0;font-weight:500;text-shadow:0 0 8px rgba(0,212,255,0.2);">3️⃣ Chọn "Nhập cấu hình" → Chọn file vừa tải</div>
+                    <div class="step" style="color:#ccddff;font-size:13px;margin:6px 0;font-weight:500;text-shadow:0 0 8px rgba(0,212,255,0.2);">4️⃣ Áp dụng và vào game kiểm tra!</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: KHO FILE (FREE + VIP) -->
+            <div id="tabFiles" class="tab-content">
+                <div class="follow-section" id="followSectionFiles">
+                    <div style="color:#ccddff;font-weight:700;font-size:15px;text-shadow:0 0 15px rgba(0,212,255,0.4);">📱 YÊU CẦU FOLLOW TIKTOK</div>
+                    <div style="color:#8888cc;font-size:13px;margin:4px 0;">Follow @goianklatan để tải file</div>
+                    <a href="https://www.tiktok.com/@goianklatan" target="_blank" style="color:#00d4ff;font-size:14px;font-weight:600;text-shadow:0 0 15px rgba(0,212,255,0.3);">👉 https://www.tiktok.com/@goianklatan</a>
+                    <div style="margin:8px 0;">
+                        <button class="btn-follow" onclick="window.open('https://www.tiktok.com/@goianklatan','_blank')">📲 Mở TikTok</button>
+                        <button class="btn-check" onclick="checkFollowFiles()">✅ Đã follow, kiểm tra</button>
+                    </div>
+                    <div id="followStatusFiles" style="color:#ff6666;font-size:14px;font-weight:600;" class="blink-text">⚠️ Chưa xác nhận follow</div>
+                </div>
+
+                <div class="tabs" style="margin-bottom:12px;gap:10px;">
+                    <button class="active" onclick="switchFileTab('free')" id="freeTabBtn" style="flex:1;background:rgba(10,10,30,0.5);border:1px solid #00d4ff;border-radius:8px;color:#00d4ff;font-weight:700;padding:8px;cursor:pointer;transition:0.3s;">📦 FREE</button>
+                    <button onclick="switchFileTab('vip')" id="vipTabBtn" style="flex:1;background:rgba(10,10,30,0.5);border:1px solid #ff44ff;border-radius:8px;color:#ff44ff;font-weight:700;padding:8px;cursor:pointer;transition:0.3s;">💎 VIP</button>
+                </div>
+
+                <div id="fileListContainer">
+                    <div style="color:#8888cc;font-size:14px;text-align:center;padding:12px;font-weight:500;text-shadow:0 0 10px rgba(0,212,255,0.2);">📭 Chưa có file nào</div>
+                </div>
+                <div class="status" id="fileStatus"></div>
+            </div>
+
+            <!-- TAB 3: TÀI KHOẢN -->
+            <div id="tabAccount" class="tab-content">
+                <h3 style="color:#00d4ff;text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;font-size:16px;text-shadow:0 0 20px rgba(0,212,255,0.5);">🔑 TÀI KHOẢN</h3>
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">🔄 ĐỔI MẬT KHẨU</div>
+                    <input type="password" id="oldPass" placeholder="Mật khẩu cũ">
+                    <input type="password" id="newPass1" placeholder="Mật khẩu mới">
+                    <input type="password" id="newPass2" placeholder="Xác nhận mật khẩu mới">
+                    <button class="btn-admin pass" onclick="changePassword()" style="width:100%;">Đổi mật khẩu</button>
+                    <div id="changePassStatus" style="color:#88ff88;font-size:12px;margin-top:6px;"></div>
+                </div>
+                <div class="admin-panel" style="margin-top:8px;">
+                    <div style="color:#ccddff;font-weight:600;font-size:13px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📊 Thống kê của bạn</div>
+                    <div style="display:flex;gap:10px;margin-top:6px;">
+                        <div style="background:#0a0a1e;padding:6px 12px;border-radius:6px;border:1px solid #333355;flex:1;text-align:center;">
+                            <span style="color:#8888cc;font-size:11px;">File đã tải</span><br>
+                            <span id="userDownloadCount" style="color:#00d4ff;font-size:20px;font-weight:700;">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB ADMIN -->
+            <div id="tabAdmin" class="tab-content">
+                <h3 style="color:#00d4ff;text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;font-size:16px;text-shadow:0 0 20px rgba(0,212,255,0.5);">👑 ADMIN PANEL</h3>
+                <div class="stats-grid">
+                    <div class="stats-item"><div class="num" id="statUsers">0</div><div class="label">👥 User</div></div>
+                    <div class="stats-item"><div class="num" id="statSens">0</div><div class="label">🎮 Độ nhạy</div></div>
+                    <div class="stats-item"><div class="num" id="statFiles">0</div><div class="label">📦 File</div></div>
+                </div>
+
+                <!-- Quản lý user (admin chính) -->
+                <div class="admin-panel" id="adminUserPanel" style="display:none;">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">👥 QUẢN LÝ USER</div>
+                    <div id="userListAdmin" style="max-height:150px;overflow-y:auto;font-size:13px;color:#ccddff;"></div>
+                    <div class="manage-row">
+                        <input type="text" id="newUserAdmin" placeholder="Tên user">
+                        <input type="password" id="newPassAdmin" placeholder="Mật khẩu">
+                        <select id="newRoleAdmin">
+                            <option value="user">User</option>
+                            <option value="seller">Seller</option>
+                            <option value="pho_admin">Phó Admin</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                        <button class="btn-admin" onclick="createUserByAdmin()">➕ Tạo</button>
+                    </div>
+                    <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap;">
+                        <button class="btn-admin del" onclick="clearAllUsers()">🗑️ Xóa all user</button>
+                        <button class="btn-admin" onclick="resetAllData()" style="background:#ff4444;color:#fff;">🔄 Reset toàn bộ</button>
+                    </div>
+                    <div style="margin-top:8px;border-top:1px solid #333355;padding-top:8px;">
+                        <div style="color:#ccddff;font-size:13px;margin-bottom:4px;font-weight:600;">🔑 Đổi mật khẩu user</div>
+                        <input type="text" id="resetPassUser" placeholder="Tên user">
+                        <input type="password" id="resetPassNew" placeholder="Mật khẩu mới">
+                        <button class="btn-admin pass" onclick="resetPassword()">🔄 Đổi</button>
+                        <div id="resetPassStatus" style="color:#88ff88;font-size:12px;margin-top:4px;"></div>
+                    </div>
+                </div>
+
+                <!-- Upload độ nhạy -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">🎮 UPLOAD ĐỘ NHẠY</div>
+                    <input type="text" id="sensName" placeholder="Tên (vd: iPhone 14 Pro - Tác giả)">
+                    <input type="text" id="sensDesc" placeholder="Mô tả ngắn (vd: Độ nhạy mượt, phù hợp iPhone)">
+                    <select id="sensPlatform">
+                        <option value="all">📱 Tất cả</option>
+                        <option value="android">📱 Android</option>
+                        <option value="ios">🍏 iOS</option>
+                    </select>
+                    <input type="file" id="sensFileInput" accept=".json,.txt" style="padding:8px;background:#111128;border:1px solid #333355;border-radius:8px;color:#fff;margin-bottom:8px;">
+                    <button class="btn-admin" onclick="uploadSens()">📤 Đăng độ nhạy</button>
+                    <div id="adminSensStatus" style="color:#88ff88;font-size:12px;margin-top:6px;"></div>
+                </div>
+
+                <!-- Upload file FREE -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📦 UPLOAD FILE FREE</div>
+                    <input type="text" id="freeFileName" placeholder="Tên file (vd: Skin pack)">
+                    <input type="text" id="freeFileDesc" placeholder="Mô tả">
+                    <input type="text" id="freeFileLink" placeholder="Link tải (Google Drive / MediaFire)">
+                    <select id="freeFilePlatform">
+                        <option value="all">📱 Tất cả</option>
+                        <option value="android">📱 Android</option>
+                        <option value="ios">🍏 iOS</option>
+                    </select>
+                    <button class="btn-admin" onclick="uploadFreeFile()">📤 Đăng file free</button>
+                    <div id="adminFreeStatus" style="color:#88ff88;font-size:12px;margin-top:6px;"></div>
+                </div>
+
+                <!-- Upload file VIP -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">💎 UPLOAD FILE VIP</div>
+                    <input type="text" id="vipFileName" placeholder="Tên file VIP (vd: Patch VIP Pro)">
+                    <input type="text" id="vipFileDesc" placeholder="Mô tả">
+                    <input type="text" id="vipFileLink" placeholder="Link tải (Google Drive / MediaFire)">
+                    <input type="text" id="vipFilePrice" placeholder="Giá (vd: 50.000 VND)">
+                    <select id="vipFilePlatform">
+                        <option value="all">📱 Tất cả</option>
+                        <option value="android">📱 Android</option>
+                        <option value="ios">🍏 iOS</option>
+                    </select>
+                    <button class="btn-admin seller" onclick="uploadVipFile()">💰 Đăng file VIP</button>
+                    <div id="adminVipStatus" style="color:#ffaa00;font-size:12px;margin-top:6px;"></div>
+                </div>
+
+                <!-- Danh sách file -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📋 DANH SÁCH FILE</div>
+                    <div id="adminFileList" style="max-height:150px;overflow-y:auto;"></div>
+                    <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
+                        <button class="btn-admin del" onclick="clearAllFiles()">🗑️ Xóa tất cả</button>
+                        <button class="btn-admin del" onclick="clearFreeFilesOnly()">🗑️ Chỉ xóa FREE</button>
+                        <button class="btn-admin del" onclick="clearVipFilesOnly()">🗑️ Chỉ xóa VIP</button>
+                    </div>
+                </div>
+
+                <!-- Backup / Restore -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">💾 BACKUP & RESTORE</div>
+                    <div class="backup-section">
+                        <button class="btn-admin" onclick="exportData()">📤 Xuất dữ liệu</button>
+                        <button class="btn-admin" onclick="document.getElementById('restoreInput').click()">📥 Nhập dữ liệu</button>
+                        <input type="file" id="restoreInput" accept=".json" style="display:none;" onchange="importData(event)">
+                    </div>
+                    <div id="backupStatus" style="color:#88ff88;font-size:12px;margin-top:6px;"></div>
+                </div>
+
+                <!-- Thông báo -->
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📢 THÔNG BÁO</div>
+                    <input type="text" id="systemNotice" placeholder="Nhập thông báo...">
+                    <button class="btn-admin" onclick="sendSystemNotice()">📢 Gửi</button>
+                    <div id="noticeList" style="max-height:120px;overflow-y:auto;margin-top:8px;font-size:13px;color:#ccddff;"></div>
+                </div>
+            </div>
+
+            <!-- TAB SELLER -->
+            <div id="tabSeller" class="tab-content">
+                <h3 style="color:#ffaa00;text-align:center;margin-bottom:12px;font-family:'Orbitron',sans-serif;font-size:16px;text-shadow:0 0 20px rgba(255,170,0,0.5);">🛒 SELLER PANEL</h3>
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📤 ĐĂNG FILE FREE</div>
+                    <input type="text" id="sellerFreeName" placeholder="Tên file">
+                    <input type="text" id="sellerFreeDesc" placeholder="Mô tả">
+                    <input type="text" id="sellerFreeLink" placeholder="Link tải">
+                    <select id="sellerFreePlatform">
+                        <option value="all">📱 Tất cả</option>
+                        <option value="android">📱 Android</option>
+                        <option value="ios">🍏 iOS</option>
+                    </select>
+                    <button class="btn-admin seller" onclick="uploadSellerFree()">📤 Đăng file free</button>
+                    <div id="sellerFreeStatus" style="color:#88ff88;font-size:12px;margin-top:6px;"></div>
+                </div>
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">💎 ĐĂNG FILE VIP</div>
+                    <input type="text" id="sellerVipName" placeholder="Tên file VIP">
+                    <input type="text" id="sellerVipDesc" placeholder="Mô tả">
+                    <input type="text" id="sellerVipLink" placeholder="Link tải">
+                    <input type="text" id="sellerVipPrice" placeholder="Giá (vd: 50.000 VND)">
+                    <select id="sellerVipPlatform">
+                        <option value="all">📱 Tất cả</option>
+                        <option value="android">📱 Android</option>
+                        <option value="ios">🍏 iOS</option>
+                    </select>
+                    <button class="btn-admin seller" onclick="uploadSellerVip()">💰 Đăng file VIP</button>
+                    <div id="sellerVipStatus" style="color:#ffaa00;font-size:12px;margin-top:6px;"></div>
+                </div>
+                <div class="admin-panel">
+                    <div style="color:#ccddff;font-weight:700;font-size:14px;margin-bottom:8px;text-shadow:0 0 10px rgba(0,212,255,0.3);">📋 FILE CỦA TÔI</div>
+                    <div id="sellerFileList" style="max-height:200px;overflow-y:auto;"></div>
+                </div>
+            </div>
+
+            <div class="footer" style="text-align:center;font-size:10px;color:#666688;margin-top:16px;letter-spacing:1px;text-shadow:0 0 8px rgba(0,212,255,0.1);">⚡ NHATT TANN • PRIME</div>
+        </div>
+    </div>
+
+    <script>
+        // ===== NHẠC =====
+        let isMusicOn = true;
+        const iframe = document.getElementById('youtubePlayer');
+        const musicBtn = document.getElementById('musicToggle');
+        musicBtn.addEventListener('click', toggleMusic);
+
+        function toggleMusic() {
+            if (isMusicOn) {
+                iframe.style.display = 'none';
+                musicBtn.textContent = '🔇';
+                musicBtn.classList.add('muted');
+                isMusicOn = false;
+            } else {
+                iframe.style.display = 'block';
+                musicBtn.textContent = '🔊';
+                musicBtn.classList.remove('muted');
+                isMusicOn = true;
+                iframe.src = iframe.src;
+            }
+        }
+
+        // ===== STAR CANVAS =====
+        const canvas = document.getElementById('starCanvas'),
+            ctx = canvas.getContext('2d');
+        let W, H, particles = [];
+
+        function resize() { W = canvas.width = innerWidth;
+            H = canvas.height = innerHeight }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class P {
+            constructor() { this.x = Math.random() * W;
+                this.y = Math.random() * H;
+                this.s = Math.random() * 2 + 0.5;
+                this.dx = (Math.random() - 0.5) * 0.3;
+                this.dy = (Math.random() - 0.5) * 0.3;
+                this.o = Math.random() * 0.6 + 0.2;
+                this.c = `rgba(255,255,255,${this.o})` }
+            update() { this.x += this.dx;
+                this.y += this.dy; if (this.x < 0) this.x = W; if (this.x > W) this.x = 0; if (this.y < 0) this.y = H; if (this.y > H) this.y = 0 }
+            draw() { ctx.beginPath();
+                ctx.arc(this.x, this.y, this.s, 0, Math.PI * 2);
+                ctx.fillStyle = this.c;
+                ctx.fill() }
+        }
+        for (let i = 0; i < 200; i++) particles.push(new P());
+
+        function anim() { ctx.clearRect(0, 0, W, H);
+            particles.forEach(p => { p.update();
+                p.draw() });
+            requestAnimationFrame(anim) }
+        anim();
+
+        // ===== TOAST =====
+        function showToast(msg, type = '') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show ' + type;
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => { t.className = 'toast'; }, 4000);
+        }
+
+        // ===== DATA =====
+        let currentUser = null;
+        let currentRole = 'user';
+        let isFollowSens = false;
+        let isFollowFiles = false;
+        let authMode = 'login';
+        let selectedPlatformSens = 'android';
+        let selectedFileType = 'free';
+        let settingsClick = 0;
+
+        function getUsers() { try { return JSON.parse(localStorage.getItem('nhattann_users')) || {} } catch { return {} } }
+
+        function saveUsers(users) { localStorage.setItem('nhattann_users', JSON.stringify(users)) }
+
+        function getSensFiles() { try { return JSON.parse(localStorage.getItem('nhattann_sens')) || [] } catch { return [] } }
+
+        function saveSensFiles(files) { localStorage.setItem('nhattann_sens', JSON.stringify(files)) }
+
+        function getStoreFiles() { try { return JSON.parse(localStorage.getItem('nhattann_store')) || [] } catch { return [] } }
+
+        function saveStoreFiles(files) { localStorage.setItem('nhattann_store', JSON.stringify(files)) }
+
+        function getNotices() { try { return JSON.parse(localStorage.getItem('nhattann_notices')) || [] } catch { return [] } }
+
+        function saveNotices(notices) { localStorage.setItem('nhattann_notices', JSON.stringify(notices)) }
+
+        function getDownloads() { try { return JSON.parse(localStorage.getItem('nhattann_downloads')) || [] } catch { return [] } }
+
+        function saveDownloads(dl) { localStorage.setItem('nhattann_downloads', JSON.stringify(dl)) }
+
+        function initAdmin() {
+            const users = getUsers();
+            if (!users['NHATT']) {
+                users['NHATT'] = { password: 'Admin123', role: 'admin', created: new Date().toISOString() };
+                saveUsers(users);
+            }
+        }
+        initAdmin();
+
+        // ===== AUTH =====
+        function toggleAuthMode() {
+            const btn = document.getElementById('authBtn'),
+                link = document.getElementById('authSwitch');
+            if (authMode === 'login') { authMode = 'register';
+                btn.textContent = 'ĐĂNG KÝ';
+                link.textContent = 'Đã có tài khoản? Đăng nhập' } else { authMode = 'login';
+                btn.textContent = 'ĐĂNG NHẬP';
+                link.textContent = 'Chưa có tài khoản? Đăng ký' }
+            document.getElementById('authStatus').textContent = '';
+        }
+
+        function handleAuth() {
+            const username = document.getElementById('authUsername').value.trim();
+            const password = document.getElementById('authPassword').value.trim();
+            const status = document.getElementById('authStatus');
+            if (!username || !password) { status.textContent = '⚠️ Nhập đầy đủ!'; return }
+            const users = getUsers();
+            if (authMode === 'register') {
+                if (users[username]) { status.textContent = '❌ Tên đã tồn tại!'; return }
+                users[username] = { password: password, role: 'user', created: new Date().toISOString() };
+                saveUsers(users);
+                status.textContent = '✅ Đăng ký thành công! Đăng nhập ngay.';
+                authMode = 'login';
+                document.getElementById('authBtn').textContent = 'ĐĂNG NHẬP';
+                document.getElementById('authSwitch').textContent = 'Chưa có tài khoản? Đăng ký';
+                return;
+            }
+            if (!users[username]) { status.textContent = '❌ Tài khoản không tồn tại!'; return }
+            if (users[username].password !== password) { status.textContent = '❌ Sai mật khẩu!'; return }
+
+            currentUser = username;
+            currentRole = users[username].role || 'user';
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('mainApp').classList.add('show');
+            document.getElementById('displayUsername').textContent = username;
+
+            const roleTagMap = { admin: '<span class="role-tag role-admin">Admin</span>', pho_admin: '<span class="role-tag role-pho">Phó Admin</span>', seller: '<span class="role-tag role-seller">Seller</span>', user: '<span class="role-tag role-user">User</span>' };
+            document.getElementById('displayRole').innerHTML = ' ' + (roleTagMap[currentRole] || '');
+
+            if (currentRole === 'admin' || currentRole === 'pho_admin') {
+                document.getElementById('adminTab').style.display = 'block';
+            } else { document.getElementById('adminTab').style.display = 'none'; }
+            if (currentRole === 'seller' || currentRole === 'admin' || currentRole === 'pho_admin') {
+                document.getElementById('sellerTab').style.display = 'block';
+            } else { document.getElementById('sellerTab').style.display = 'none'; }
+
+            if (currentRole === 'user') {
+                document.querySelector('.settings-icon').style.display = 'none';
+            } else {
+                document.querySelector('.settings-icon').style.display = 'block';
+            }
+
+            renderSensList();
+            renderStoreList();
+            if (currentRole === 'admin' || currentRole === 'pho_admin') {
+                renderAdminUserList();
+                renderAdminFileList();
+                renderStats();
+                renderNotices();
+                if (currentRole === 'admin') {
+                    document.getElementById('adminUserPanel').style.display = 'block';
+                } else {
+                    document.getElementById('adminUserPanel').style.display = 'none';
+                }
+            }
+            if (currentRole === 'seller' || currentRole === 'admin' || currentRole === 'pho_admin') {
+                renderSellerFileList();
+            }
+            updateUserStats();
+            document.getElementById('followStatusSens').textContent = '⚠️ Cần follow TikTok để tải độ nhạy';
+            document.getElementById('followStatusFiles').textContent = '⚠️ Cần follow TikTok để tải file';
+            showToast('👋 Chào ' + username + '!', 'success');
+            if (currentRole === 'admin' || currentRole === 'pho_admin') {
+                const notices = getNotices();
+                notices.push({ msg: `🟢 ${username} đã đăng nhập`, time: new Date().toISOString(), by: 'System' });
+                saveNotices(notices);
+                renderNotices();
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            currentRole = 'user';
+            document.getElementById('mainApp').classList.remove('show');
+            document.getElementById('authScreen').style.display = 'flex';
+            document.getElementById('authUsername').value = '';
+            document.getElementById('authPassword').value = '';
+            document.getElementById('authStatus').textContent = '';
+            showToast('Đã đăng xuất!', 'warning');
+        }
+
+        // ===== FOLLOW =====
+        function checkFollowSens() { isFollowSens = true;
+            document.getElementById('followStatusSens').textContent = '✅ Đã xác nhận follow!';
+            document.getElementById('followStatusSens').className = 'verified';
+            showToast('✅ Xác nhận follow thành công!', 'success') }
+
+        function checkFollowFiles() { isFollowFiles = true;
+            document.getElementById('followStatusFiles').textContent = '✅ Đã xác nhận follow!';
+            document.getElementById('followStatusFiles').className = 'verified';
+            showToast('✅ Xác nhận follow thành công!', 'success') }
+
+        // ===== PLATFORM =====
+        function selectPlatformSens(p) { selectedPlatformSens = p;
+            document.querySelectorAll('#platformSelectSens button').forEach(b => b.classList.remove('active'));
+            document.querySelector(`#platformSelectSens button[data-platform="${p}"]`).classList.add('active');
+            renderSensList() }
+
+        function switchFileTab(type) {
+            selectedFileType = type;
+            document.getElementById('freeTabBtn').style.borderColor = type === 'free' ? '#00d4ff' : '#333355';
+            document.getElementById('freeTabBtn').style.color = type === 'free' ? '#00d4ff' : '#8888cc';
+            document.getElementById('vipTabBtn').style.borderColor = type === 'vip' ? '#ff44ff' : '#333355';
+            document.getElementById('vipTabBtn').style.color = type === 'vip' ? '#ff44ff' : '#8888cc';
+            renderStoreList();
+        }
+
+        // ===== ĐỘ NHẠY =====
+        function renderSensList() {
+            const files = getSensFiles();
+            const container = document.getElementById('sensFileList');
+            const filtered = files.filter(f => f.platform === 'all' || f.platform === selectedPlatformSens);
+            if (!filtered.length) { container.innerHTML = '<div style="color:#8888cc;font-size:14px;text-align:center;padding:12px;font-weight:500;text-shadow:0 0 10px rgba(0,212,255,0.2);">📭 Chưa có file độ nhạy nào</div>'; return }
+            container.innerHTML = filtered.map((f, idx) => `
+                <div class="file-item">
+                    <div class="name">🎮 ${f.name}</div>
+                    <div class="desc">${f.desc || ''}</div>
+                    <div style="font-size:11px;color:#666688;margin-top:2px;">📱 ${f.platform} | ${f.by || 'Admin'}</div>
+                    <button class="btn-download" onclick="downloadSens('${f.id}')">⬇️ Tải xuống</button>
+                </div>
+            `).join('');
+        }
+
+        function downloadSens(id) {
+            if (!currentUser) { showToast('⚠️ Vui lòng đăng nhập!', 'error'); return }
+            if (!isFollowSens) { showToast('⚠️ Cần follow TikTok!', 'error'); return }
+            const files = getSensFiles();
+            const f = files.find(x => x.id === id);
+            if (!f) { showToast('❌ Không tìm thấy file!', 'error'); return }
+            // Tạo file tạm từ nội dung
+            try {
+                const content = f.content || '{"sensitivity": 1.0}';
+                const blob = new Blob([content], { type: 'application/json' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = `sensitivity_${f.name.replace(/\s/g,'_')}.json`;
+                link.click();
+                showToast('✅ Tải file độ nhạy thành công!', 'success');
+                document.getElementById('sensGuide').style.display = 'block';
+                // Log download
+                const dl = getDownloads();
+                dl.push({ user: currentUser, file: f.name, type: 'sens', time: new Date().toISOString() });
+                saveDownloads(dl);
+                updateUserStats();
+            } catch (e) {
+                showToast('❌ Lỗi tải file: ' + e.message, 'error');
+            }
+        }
+
+        // ===== STORE (FREE + VIP) =====
+        function renderStoreList() {
+            const files = getStoreFiles();
+            const container = document.getElementById('fileListContainer');
+            const filtered = files.filter(f => f.type === selectedFileType);
+            if (!filtered.length) {
+                const msg = selectedFileType === 'free' ? '📭 Chưa có file FREE nào' : '💎 Chưa có file VIP nào';
+                container.innerHTML = `<div style="color:#8888cc;font-size:14px;text-align:center;padding:12px;font-weight:500;text-shadow:0 0 10px rgba(0,212,255,0.2);">${msg}</div>`;
+                return;
+            }
+            container.innerHTML = filtered.map((f, idx) => `
+                <div class="file-item">
+                    <div class="name">${f.type === 'vip' ? '💎' : '📦'} ${f.name} ${f.type === 'vip' ? '<span class="vip-tag">VIP</span>' : '<span class="free-tag">FREE</span>'}</div>
+                    <div class="desc">${f.desc || ''}</div>
+                    ${f.price ? `<div style="color:#ffaa00;font-weight:700;font-size:13px;">💰 ${f.price}</div>` : ''}
+                    <div style="font-size:11px;color:#666688;margin-top:2px;">📱 ${f.platform} | ${f.by || 'Admin'}</div>
+                    <button class="btn-download ${f.type === 'vip' ? 'vip' : ''}" onclick="downloadStoreFile('${f.id}')">${f.type === 'vip' ? '💎 Mua & Tải' : '⬇️ Tải xuống'}</button>
+                </div>
+            `).join('');
+        }
+
+        function downloadStoreFile(id) {
+            if (!currentUser) { showToast('⚠️ Vui lòng đăng nhập!', 'error'); return }
+            if (!isFollowFiles) { showToast('⚠️ Cần follow TikTok!', 'error'); return }
+            const files = getStoreFiles();
+            const f = files.find(x => x.id === id);
+            if (!f) { showToast('❌ Không tìm thấy file!', 'error'); return }
+            if (f.type === 'vip') {
+                if (!confirm(`💎 File VIP: ${f.name}\n💰 Giá: ${f.price || 'Liên hệ'}\n\nBạn có muốn tải file này không?`)) return;
+                showToast('💎 Vui lòng liên hệ Admin để mua file VIP!', 'warning');
+                return;
+            }
+            if (f.link) {
+                window.open(f.link, '_blank');
+                showToast('✅ Đang mở link tải...', 'success');
+            } else {
+                showToast('❌ Link tải không hợp lệ!', 'error');
+            }
+            const dl = getDownloads();
+            dl.push({ user: currentUser, file: f.name, type: 'store_' + f.type, time: new Date().toISOString() });
+            saveDownloads(dl);
+            updateUserStats();
+        }
+
+        // ===== USER STATS =====
+        function updateUserStats() {
+            const dl = getDownloads();
+            const count = dl.filter(d => d.user === currentUser).length;
+            document.getElementById('userDownloadCount').textContent = count;
+        }
+
+        // ===== ĐỔI MẬT KHẨU =====
+        function changePassword() {
+            if (!currentUser) return;
+            const old = document.getElementById('oldPass').value.trim();
+            const new1 = document.getElementById('newPass1').value.trim();
+            const new2 = document.getElementById('newPass2').value.trim();
+            const status = document.getElementById('changePassStatus');
+            if (!old || !new1 || !new2) { status.textContent = '⚠️ Nhập đầy đủ!'; return; }
+            if (new1 !== new2) { status.textContent = '⚠️ Mật khẩu mới không khớp!'; return; }
+            const users = getUsers();
+            if (users[currentUser].password !== old) { status.textContent = '❌ Mật khẩu cũ sai!'; return; }
+            users[currentUser].password = new1;
+            saveUsers(users);
+            status.textContent = '✅ Đổi mật khẩu thành công!';
+            document.getElementById('oldPass').value = '';
+            document.getElementById('newPass1').value = '';
+            document.getElementById('newPass2').value = '';
+            showToast('✅ Đổi mật khẩu thành công!', 'success');
+        }
+
+        // ===== ADMIN =====
+        function renderStats() {
+            const users = getUsers(),
+                sens = getSensFiles(),
+                store = getStoreFiles();
+            document.getElementById('statUsers').textContent = Object.keys(users).length;
+            document.getElementById('statSens').textContent = sens.length;
+            document.getElementById('statFiles').textContent = store.length;
+        }
+
+        function renderAdminUserList() {
+            const users = getUsers();
+            const container = document.getElementById('userListAdmin');
+            const list = Object.keys(users).map(u => ({ username: u, role: users[u].role || 'user', created: users[u].created || 'N/A' }));
+            if (!list.length) { container.innerHTML = '<div style="color:#666688;font-size:13px;">👥 Chưa có user</div>'; return }
+            container.innerHTML = list.map(u => `
+                <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a1a3a;">
+                    <span style="font-size:13px;color:#ccddff;text-shadow:0 0 8px rgba(0,212,255,0.2);">${u.username}</span>
+                    <span style="font-size:12px;color:#666688;">${u.role} | ${u.created.substring(0,10)}</span>
+                    ${u.username !== 'NHATT' ? `<span class="del" onclick="deleteUser('${u.username}')" style="color:#ff4444;cursor:pointer;font-weight:bold;">✖</span>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function deleteUser(username) {
+            if (!currentUser || currentRole !== 'admin') return;
+            if (username === 'NHATT') { showToast('Không thể xóa admin chính!', 'error'); return }
+            if (!confirm(`Xóa user "${username}"?`)) return;
+            const users = getUsers();
+            delete users[username];
+            saveUsers(users);
+            renderAdminUserList();
+            renderStats();
+            showToast('✅ Đã xóa user ' + username, 'success');
+        }
+
+        function clearAllUsers() {
+            if (!currentUser || currentRole !== 'admin') return;
+            if (!confirm('Xóa tất cả user (trừ admin NHATT)?')) return;
+            const users = getUsers();
+            const adminOnly = { NHATT: users['NHATT'] };
+            saveUsers(adminOnly);
+            renderAdminUserList();
+            renderStats();
+            showToast('✅ Đã xóa tất cả user', 'success');
+        }
+
+        function resetAllData() {
+            if (!currentUser || currentRole !== 'admin') return;
+            if (!confirm('⚠️ Reset TOÀN BỘ dữ liệu?\nAdmin NHATT sẽ được giữ lại.')) return;
+            localStorage.removeItem('nhattann_users');
+            localStorage.removeItem('nhattann_sens');
+            localStorage.removeItem('nhattann_store');
+            localStorage.removeItem('nhattann_notices');
+            localStorage.removeItem('nhattann_downloads');
+            initAdmin();
+            renderAdminUserList();
+            renderAdminFileList();
+            renderStats();
+            renderNotices();
+            showToast('🔄 Đã reset toàn bộ dữ liệu!', 'warning');
+        }
+
+        function createUserByAdmin() {
+            if (!currentUser || currentRole !== 'admin') return;
+            const username = document.getElementById('newUserAdmin').value.trim();
+            const password = document.getElementById('newPassAdmin').value.trim();
+            const role = document.getElementById('newRoleAdmin').value;
+            if (!username || !password) { showToast('⚠️ Nhập đầy đủ!', 'error'); return }
+            const users = getUsers();
+            if (users[username]) { showToast('❌ Tên đã tồn tại!', 'error'); return }
+            users[username] = { password: password, role: role, created: new Date().toISOString() };
+            saveUsers(users);
+            document.getElementById('newUserAdmin').value = '';
+            document.getElementById('newPassAdmin').value = '';
+            renderAdminUserList();
+            renderStats();
+            showToast('✅ Tạo user ' + username + ' thành công!', 'success');
+        }
+
+        function resetPassword() {
+            if (!currentUser || currentRole !== 'admin') return;
+            const username = document.getElementById('resetPassUser').value.trim();
+            const newPass = document.getElementById('resetPassNew').value.trim();
+            const status = document.getElementById('resetPassStatus');
+            if (!username || !newPass) { status.textContent = '⚠️ Nhập đầy đủ!'; return }
+            const users = getUsers();
+            if (!users[username]) { status.textContent = '❌ User không tồn tại!'; return }
+            users[username].password = newPass;
+            saveUsers(users);
+            status.textContent = '✅ Đã đổi mật khẩu cho ' + username;
+            document.getElementById('resetPassUser').value = '';
+            document.getElementById('resetPassNew').value = '';
+            showToast('✅ Đã đổi mật khẩu cho ' + username, 'success');
+        }
+
+        // ===== UPLOAD SENS =====
+        function uploadSens() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            const name = document.getElementById('sensName').value.trim();
+            const desc = document.getElementById('sensDesc').value.trim();
+            const platform = document.getElementById('sensPlatform').value;
+            const fileInput = document.getElementById('sensFileInput');
+            if (!name || !fileInput.files || !fileInput.files.length) {
+                showToast('⚠️ Nhập tên và chọn file!', 'error');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const content = e.target.result;
+                const files = getSensFiles();
+                const id = 'sens_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+                files.push({ id, name, desc, platform, content, by: currentUser, uploaded: new Date().toISOString() });
+                saveSensFiles(files);
+                document.getElementById('sensName').value = '';
+                document.getElementById('sensDesc').value = '';
+                document.getElementById('sensFileInput').value = '';
+                renderSensList();
+                renderStats();
+                showToast('✅ Đã đăng file độ nhạy!', 'success');
+            };
+            reader.readAsText(fileInput.files[0]);
+        }
+
+        // ===== UPLOAD STORE (FREE) =====
+        function uploadFreeFile() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            const name = document.getElementById('freeFileName').value.trim();
+            const desc = document.getElementById('freeFileDesc').value.trim();
+            const link = document.getElementById('freeFileLink').value.trim();
+            const platform = document.getElementById('freeFilePlatform').value;
+            if (!name || !link) { showToast('⚠️ Nhập tên và link!', 'error'); return }
+            const files = getStoreFiles();
+            const id = 'store_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+            files.push({ id, name, desc, link, platform, type: 'free', price: null, by: currentUser, uploaded: new Date()
+                    .toISOString() });
+            saveStoreFiles(files);
+            document.getElementById('freeFileName').value = '';
+            document.getElementById('freeFileDesc').value = '';
+            document.getElementById('freeFileLink').value = '';
+            renderStoreList();
+            renderAdminFileList();
+            renderStats();
+            showToast('✅ Đã đăng file free!', 'success');
+        }
+
+        // ===== UPLOAD STORE (VIP) =====
+        function uploadVipFile() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            const name = document.getElementById('vipFileName').value.trim();
+            const desc = document.getElementById('vipFileDesc').value.trim();
+            const link = document.getElementById('vipFileLink').value.trim();
+            const price = document.getElementById('vipFilePrice').value.trim();
+            const platform = document.getElementById('vipFilePlatform').value;
+            if (!name || !link || !price) { showToast('⚠️ Nhập đầy đủ!', 'error'); return }
+            const files = getStoreFiles();
+            const id = 'store_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+            files.push({ id, name, desc, link, platform, type: 'vip', price, by: currentUser, uploaded: new Date()
+                    .toISOString() });
+            saveStoreFiles(files);
+            document.getElementById('vipFileName').value = '';
+            document.getElementById('vipFileDesc').value = '';
+            document.getElementById('vipFileLink').value = '';
+            document.getElementById('vipFilePrice').value = '';
+            renderStoreList();
+            renderAdminFileList();
+            renderStats();
+            showToast('💰 Đã đăng file VIP!', 'success');
+        }
+
+        // ===== ADMIN FILE LIST =====
+        function renderAdminFileList() {
+            const sens = getSensFiles();
+            const store = getStoreFiles();
+            const container = document.getElementById('adminFileList');
+            const all = [...sens.map(f => ({ ...f, type: 'sens' })), ...store.map(f => ({ ...f, type: f.type }))];
+            if (!all.length) { container.innerHTML = '<div style="color:#666688;font-size:13px;">📭 Chưa có file nào</div>'; return }
+            container.innerHTML = all.map((f, idx) => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1a1a3a;">
+                    <span style="font-size:12px;color:#ccddff;text-shadow:0 0 8px rgba(0,212,255,0.2);">${f.name} ${f.type === 'vip' ? '<span class="vip-tag">VIP</span>' : f.type === 'sens' ? '🎮' : '📦'}</span>
+                    <span style="font-size:11px;color:#666688;">${f.platform}</span>
+                    <span class="del" onclick="deleteFileAdmin('${f.id}','${f.type}')" style="color:#ff4444;cursor:pointer;font-weight:bold;">✖</span>
+                </div>
+            `).join('');
+        }
+
+        function deleteFileAdmin(id, type) {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            if (!confirm('Xóa file này?')) return;
+            if (type === 'sens') {
+                let files = getSensFiles();
+                files = files.filter(f => f.id !== id);
+                saveSensFiles(files);
+                renderSensList();
+            } else {
+                let files = getStoreFiles();
+                files = files.filter(f => f.id !== id);
+                saveStoreFiles(files);
+                renderStoreList();
+            }
+            renderAdminFileList();
+            renderStats();
+            showToast('✅ Đã xóa file', 'success');
+        }
+
+        function clearAllFiles() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            if (!confirm('Xóa tất cả file?')) return;
+            saveSensFiles([]);
+            saveStoreFiles([]);
+            renderSensList();
+            renderStoreList();
+            renderAdminFileList();
+            renderStats();
+            showToast('✅ Đã xóa tất cả file', 'success');
+        }
+
+        function clearFreeFilesOnly() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            if (!confirm('Chỉ xóa file FREE?')) return;
+            let files = getStoreFiles();
+            files = files.filter(f => f.type === 'vip');
+            saveStoreFiles(files);
+            renderStoreList();
+            renderAdminFileList();
+            renderStats();
+            showToast('✅ Đã xóa file FREE', 'success');
+        }
+
+        function clearVipFilesOnly() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            if (!confirm('Chỉ xóa file VIP?')) return;
+            let files = getStoreFiles();
+            files = files.filter(f => f.type === 'free');
+            saveStoreFiles(files);
+            renderStoreList();
+            renderAdminFileList();
+            renderStats();
+            showToast('✅ Đã xóa file VIP', 'success');
+        }
+
+        // ===== SELLER =====
+        function uploadSellerFree() {
+            if (!currentUser || (currentRole !== 'seller' && currentRole !== 'admin' && currentRole !== 'pho_admin'))
+            return;
+            const name = document.getElementById('sellerFreeName').value.trim();
+            const desc = document.getElementById('sellerFreeDesc').value.trim();
+            const link = document.getElementById('sellerFreeLink').value.trim();
+            const platform = document.getElementById('sellerFreePlatform').value;
+            if (!name || !link) { showToast('⚠️ Nhập đầy đủ!', 'error'); return }
+            const files = getStoreFiles();
+            const id = 'store_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+            files.push({ id, name, desc, link, platform, type: 'free', price: null, by: currentUser, seller: currentUser,
+                uploaded: new Date().toISOString() });
+            saveStoreFiles(files);
+            document.getElementById('sellerFreeName').value = '';
+            document.getElementById('sellerFreeDesc').value = '';
+            document.getElementById('sellerFreeLink').value = '';
+            renderStoreList();
+            renderSellerFileList();
+            showToast('✅ Đã đăng file free!', 'success');
+        }
+
+        function uploadSellerVip() {
+            if (!currentUser || (currentRole !== 'seller' && currentRole !== 'admin' && currentRole !== 'pho_admin'))
+            return;
+            const name = document.getElementById('sellerVipName').value.trim();
+            const desc = document.getElementById('sellerVipDesc').value.trim();
+            const link = document.getElementById('sellerVipLink').value.trim();
+            const price = document.getElementById('sellerVipPrice').value.trim();
+            const platform = document.getElementById('sellerVipPlatform').value;
+            if (!name || !link || !price) { showToast('⚠️ Nhập đầy đủ!', 'error'); return }
+            const files = getStoreFiles();
+            const id = 'store_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4);
+            files.push({ id, name, desc, link, platform, type: 'vip', price, by: currentUser, seller: currentUser,
+                uploaded: new Date().toISOString() });
+            saveStoreFiles(files);
+            document.getElementById('sellerVipName').value = '';
+            document.getElementById('sellerVipDesc').value = '';
+            document.getElementById('sellerVipLink').value = '';
+            document.getElementById('sellerVipPrice').value = '';
+            renderStoreList();
+            renderSellerFileList();
+            showToast('💰 Đã đăng file VIP!', 'success');
+        }
+
+        function renderSellerFileList() {
+            const files = getStoreFiles();
+            const container = document.getElementById('sellerFileList');
+            const myFiles = files.filter(f => f.seller === currentUser || f.by === currentUser);
+            if (!myFiles.length) { container.innerHTML = '<div style="color:#666688;font-size:13px;">📭 Bạn chưa đăng file nào</div>'; return }
+            container.innerHTML = myFiles.map((f, idx) => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1a1a3a;">
+                    <span style="font-size:13px;color:#ccddff;text-shadow:0 0 8px rgba(0,212,255,0.2);">${f.name} ${f.type === 'vip' ? '<span class="vip-tag">VIP</span>' : ''}</span>
+                    <span style="font-size:11px;color:#666688;">${f.platform}</span>
+                    <span class="del" onclick="deleteSellerFile('${f.id}')" style="color:#ff4444;cursor:pointer;font-weight:bold;">✖</span>
+                </div>
+            `).join('');
+        }
+
+        function deleteSellerFile(id) {
+            if (!currentUser) return;
+            if (!confirm('Xóa file của bạn?')) return;
+            let files = getStoreFiles();
+            files = files.filter(f => f.id !== id || (f.seller !== currentUser && f.by !== currentUser));
+            saveStoreFiles(files);
+            renderStoreList();
+            renderSellerFileList();
+            showToast('✅ Đã xóa file', 'success');
+        }
+
+        // ===== BACKUP / RESTORE =====
+        function exportData() {
+            const data = {
+                users: getUsers(),
+                sens: getSensFiles(),
+                store: getStoreFiles(),
+                notices: getNotices(),
+                downloads: getDownloads(),
+                exported: new Date().toISOString()
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'nhattann_prime_backup.json';
+            link.click();
+            showToast('✅ Đã xuất dữ liệu!', 'success');
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if (data.users) saveUsers(data.users);
+                    if (data.sens) saveSensFiles(data.sens);
+                    if (data.store) saveStoreFiles(data.store);
+                    if (data.notices) saveNotices(data.notices);
+                    if (data.downloads) saveDownloads(data.downloads);
+                    renderAdminUserList();
+                    renderAdminFileList();
+                    renderStats();
+                    renderNotices();
+                    renderSensList();
+                    renderStoreList();
+                    showToast('✅ Nhập dữ liệu thành công!', 'success');
+                } catch (err) {
+                    showToast('❌ Lỗi nhập dữ liệu: ' + err.message, 'error');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
+
+        // ===== THÔNG BÁO =====
+        function sendSystemNotice() {
+            if (!currentUser || (currentRole !== 'admin' && currentRole !== 'pho_admin')) return;
+            const msg = document.getElementById('systemNotice').value.trim();
+            if (!msg) { showToast('⚠️ Nhập thông báo!', 'error'); return }
+            const notices = getNotices();
+            notices.push({ msg, time: new Date().toISOString(), by: currentUser });
+            saveNotices(notices);
+            document.getElementById('systemNotice').value = '';
+            renderNotices();
+            showToast('📢 Đã gửi thông báo!', 'success');
+        }
+
+        function renderNotices() {
+            const notices = getNotices();
+            const container = document.getElementById('noticeList');
+            if (!notices.length) { container.innerHTML = '<div style="color:#666688;font-size:13px;">📢 Chưa có thông báo</div>'; return }
+            container.innerHTML = notices.slice(-5).reverse().map(n => `
+                <div class="notice-box">
+                    <div style="font-size:13px;color:#ccddff;text-shadow:0 0 8px rgba(0,212,255,0.2);">${n.msg}</div>
+                    <div class="time">${n.time.substring(0,16)} - ${n.by}</div>
+                </div>
+            `).join('');
+        }
+
+        // ===== TABS =====
+        document.querySelectorAll('.tabs button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('show'));
+                document.getElementById(this.dataset.tab).classList.add('show');
+            });
+        });
+
+        // ===== SETTINGS =====
+        function clickSettings() {
+            if (!currentUser) return;
+            if (currentRole === 'user') { showToast('⚠️ Bạn không có quyền truy cập Admin!', 'error'); return }
+            settingsClick++;
+            if (settingsClick >= 5) {
+                settingsClick = 0;
+                if (currentRole === 'admin' || currentRole === 'pho_admin') {
+                    document.querySelector('[data-tab="tabAdmin"]').click();
+                    showToast('👑 Mở Admin Panel', 'success');
+                } else {
+                    showToast('⚠️ Bạn không có quyền admin!', 'error');
+                }
+            }
+        }
+
+        // ===== KHỞI ĐỘNG =====
+        window.onload = function() {
+            setTimeout(() => { iframe.src = iframe.src; }, 1000);
+        };
+    </script>
+</body>
+</html>
